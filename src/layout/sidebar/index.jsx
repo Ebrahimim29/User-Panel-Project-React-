@@ -1,3 +1,5 @@
+import SidebarItem from "./SidebarItem"
+
 export default function Sidebar() {
   return (
     <div className="fixed right-0 h-screen w-64 bg-blue-400 shadow-lg flex flex-col justify-between">
@@ -12,24 +14,15 @@ export default function Sidebar() {
         </div>
         {/* Bottom Content */}
         <div className="flex flex-col gap-4 flex-1 bg-blue-400 rounded-b-lg">
-          <ul className="text-white">
-            <li className="hover:bg-red-300 p-2 rounded">
-              <p>کاربران</p>
-            </li>
-            <li className="hover:bg-red-300 p-2 rounded">
-              <p>پست ها</p>
-            </li>
-            <li className="hover:bg-red-300 p-2 rounded">
-              <p>کامنت ها</p>
-            </li>
-            <li className="hover:bg-red-300 p-2 rounded">
-              <p>تسک ها</p>
-            </li>
-            <li className="hover:bg-red-300 p-2 rounded">
-              <p>گالری</p>
-            </li>
+          <ul className="text-black">
+            <SidebarItem to="/users">کاربران</SidebarItem>
+            <SidebarItem to="/posts">پست ها</SidebarItem>
+            <SidebarItem to="/comments">کامنت ها</SidebarItem>
+            <SidebarItem to="/tasks">تسک ها</SidebarItem>
+            <SidebarItem to="/gallery">گالری</SidebarItem>
           </ul>
         </div>
       </div>
   );
 }
+
