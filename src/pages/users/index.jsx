@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getUsersService } from "../../services/users";
+import { deleteUserService, getUsersService } from "../../services/users";
 import { FaUserPlus } from "react-icons/fa";
 import UserTable from "./_components/UserTable";
 import { Link } from "react-router";
@@ -25,6 +25,15 @@ export default function UsersPage() {
         console.log(users);        
     }, [users]);
 
+    const handleDelete = async (id) => {
+        const res = await deleteUserService(id)
+        if (res.status === 200){
+            alert('عملیات با موفقیت انجام شد')
+            console.log(res);            
+            setUsers(users.filter(user => user.id !== id))
+        }
+    }
+
     return (
         <div className="space-y-4">
             <div className="flex justify-between items-center">
@@ -35,7 +44,7 @@ export default function UsersPage() {
                 </Link>
             </div>
 
-            <UserTable users={users}/>
+            <UserTable users={users} handleDelete={handleDelete}/>
        </div>
     )
 };

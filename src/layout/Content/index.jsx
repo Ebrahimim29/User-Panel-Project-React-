@@ -13,6 +13,7 @@ const Content = () => {
       <div className="p-4 h-full w-full">
         <Routes>
           <Route path="/users" element={<UsersPage/>}/>
+          <Route path="/users/edit/:id" element={<AddUserPage/>}/>
           <Route path="/users/add" element={<AddUserPage/>}/>
           <Route path="/posts" element={<PostsPage/>}/>
           <Route path="/comments" element={<CommentsPage/>}/>

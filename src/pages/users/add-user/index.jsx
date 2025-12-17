@@ -1,12 +1,19 @@
 import { useState } from "react";
+import { createUserService, updateUserService } from "../../../services/users";
+import { useLocation, useNavigate } from "react-router";
 
 export default function AddUserPage() {
-    
+
+    const navigate = useNavigate()
+
+    const location = useLocation()
+    const userToEdit = location.state?.user
+
     const [formData, setFormData] = useState({
-        name:'',
-        email:'',
-        phone:'',
-        website:''
+        name: userToEdit?.name ||'',
+        email: userToEdit?.email ||'',
+        phone: userToEdit?.phone ||'',
+        website: userToEdit?.website ||''
     });
 
     const handleChange = (e) => {
@@ -17,19 +24,23 @@ export default function AddUserPage() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form Submitted:", formData);        
-        // Send data to on API
-
-        alert('User added Successfully');
-        // clear form
-        setFormData({name:'', email:'', phone:'', website:''});
+        // console.log("Form Submitted:", formData); 
+        const res = userToEdit ? await updateUserService(userToEdit.id, formData) : await createUserService(formData) 
+        if (res.status === 201 || res.status === 200){
+            // Send data to on API
+            console.log(res);            
+            alert('عملیات با موفقیت انجام شد:'+ res.data.id);
+            // clear form
+            setFormData({name:'', email:'', phone:'', website:''});
+            navigate(-1)
+        }
     };
 
     return (
         <div className="max-w-2xl mx-auto p-6 h-full flex flex-col">
-            <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">افزودن کاربر</h1>
+            <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">{userToEdit ? 'ویرایش کاربر' : 'افزودن کاربر'}</h1>
 
             <form onSubmit={handleSubmit} className="bg-sky-300 shadow-lg rounded-lg p-8 flex-1 flex flex-col overflow-y-auto">
                 <div className="flex-1 space-y-6">
@@ -85,7 +96,7 @@ export default function AddUserPage() {
 
                 <div className="flex justify-center mt-8">
                     <button type="submit" className="bg-red-400 hover:bg-amber-400 text-black font-medium py-3 px-8 rounded-lg transition duration-300 shadow-md">
-                        ثبت
+                        {userToEdit ? 'ویرایش' : 'ثبت'}
                     </button>
                 </div>
 
